@@ -28,8 +28,8 @@ describe 'apache::default' do
     it "enable apache service" do
       expect(chef_run).to enable_service('apache2')
     end
-    it "check if /var/www/html/index.html file has a correct user" do
-      expect(chef_run).to create_file('/var/www/html/index.html').with(:owner => "apache", group:"apache")
+    it "check if /var/www/index.html file has a correct user" do
+      expect(chef_run).to create_file('/var/www/index.html').with(:owner => "root", group:"root")
     end
 #    it "check if /var/www/html/index.html file has a correct group" do
 #      expect(chef_run).to create_file('/var/www/html/index.html').with(group:"apache")
