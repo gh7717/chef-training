@@ -9,4 +9,7 @@ describe "apache:default" do
   describe process("apache2") do
     its(:user) { should eq "root" }
   end
+  describe port(8080) do 
+    it {should be_listening}
+  end 
 end

@@ -10,21 +10,23 @@ package 'apache2'
 case node['platform_version']
 when '12.04'
   path="/var/www/index.html" 
+  conf_dir = "/etc/apache2/conf.d"
+  package 'net-tools'
 when '14.04'
   path="/var/www/html/index.html"
+  conf_dir="/etc/apache2/conf-enabled"
 end
 
-
-
-template "/etc/apache2/conf-enabled/admin.conf" do
-  source "apache.erb"
-  variables(port: 8080, document_root: "/var/www/admin/html")
-  notifies :restart, "service[apache2]"
-end
-
-directory "/var/www/admin/html/" do
+directory "/var/www/admin/html" do
   recursive true
 end
+
+template "#{conf_dir}/admin.conf" do
+  source "apache.erb"
+  variables(port: 8080, document_root: "/var/www/admin/html")
+  notifies :restart, "service[apache2]", :immediately
+end
+
 
 file "/var/www/admin/html/index.html" do
   owner "root"
